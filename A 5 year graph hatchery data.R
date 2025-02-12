@@ -11,9 +11,9 @@ library(stringr)
 
 #Let's prepare the dataframe that we uploaded for graphing!
 
-colnames(Hatcherydata) <- Hatcherydata[6, ] #making the column names the names in the sheet
+colnames(Hatcherydata) <- Hatcherydata[7, ] #making the column names the names in the sheet
 
-Hatcherydata <- Hatcherydata[-c(1:6), ] #We need to get rid of these rows cause they confuse R
+Hatcherydata <- Hatcherydata[-c(1:7), ] #We need to get rid of these rows cause they confuse R
 Hatcherydata <- Hatcherydata[-nrow(Hatcherydata), ] #get lid of the last row so the totals don't get graphed
 
 colnames(Hatcherydata) <- gsub(" ", ".", colnames(Hatcherydata)) #get rid of spaces in the names
@@ -41,7 +41,7 @@ Hatcherydata[Hatcherydata == ""] <- NA
 
 filtered_data <- Hatcherydata %>% 
   filter(Adults.In > 0) %>%  # Keep rows where Adults.In is greater than 0
-  filter(str_detect(Brood, "^CH:NA")) %>%  # Filter rows where 'Brood' starts with "CO:NA", Change this if you want to see LA!!!
+  filter(str_detect(Brood, "^CO:NA")) %>%  # Filter rows where 'Brood' starts with "CO:NA", Change this if you want to see LA!!!
   group_by(Week, year) %>%  # Group by both Week and year
   summarize(
     Adults.In = sum(Adults.In, na.rm = TRUE)  # Sum Adults.In within each week-year group
@@ -56,9 +56,9 @@ filtered_data <- Hatcherydata %>%
 ggplot(filtered_data, aes(x = Week, y = Adults.In, fill = year)) +
   geom_col(position = position_dodge2(preserve = 'single')) +
   xlab("Week") +
-  ylab("Total Number of CH:NA adults in") +   #Change the name of the species here!!!!
+  ylab("Total Number of CO:NA adults in") +   #Change the name of the species here!!!!
   theme(text = element_text(size = 8)) + 
-  ggtitle("Nemah 2019-Now") +   #change the name of the hatchery here!!!!!
+  ggtitle("Naselle CO 2019-Now") +   #change the name of the hatchery here!!!!!
   theme_minimal() +
   theme(legend.position = "top") +
   scale_fill_brewer(palette="Set2") #this changes the color if you don't like the colors I picked!!!!
